@@ -1,0 +1,105 @@
+from apps.likesbooks.models import *
+
+
+user1=User(first_name="barka", last_name="p",email="barka@gmail.com")
+>>> user1.save()
+>>> User.objects.all()
+<QuerySet [User object: barka p barka@gmail.com ]>
+>>> user2=User(first_name="cathy", last_name="b",email="cathy@gmail.com")
+>>> user2.save()
+>>> User.objects.all()
+<QuerySet [User object: barka p barka@gmail.com , User object: cathy b cathy@gmail.com ]>
+>>> user3=User(first_name="bret", last_name="f",email="bret@gmail.com")
+>>> user3.save()
+>>> User.objects.all()
+<QuerySet [User object: barka p barka@gmail.com , User object: cathy b cathy@gmail.com , User object: bret f bret@gmail.com ]>
+~~~~~~~~~~~~~~~~~~~~~~~
+Have the first user create 2 books.
+Have the second user create 2 other books.
+Have the third user create 2 other books.
+
+book1=Book(name="masterchef", desc="how to cook", uploader_id="1")
+>>> book1.save()
+
+
+book2=Book(name="great chef", desc="cooking expert", uploader_id="1")
+>>> book2.save()
+
+book3=Book(name="being a mom", desc="expect or unexpect", uploader_id="2")
+>>> book3.save()
+>>> book4=Book(name="working mom", desc="up's and downs of mom", uploader_id="2")
+>>> book4.save()
+>>> book5=Book(name="fidget spinner", desc="uses of fidget spinner", uploader_id="3")
+>>> book5.save()
+>>> book6=Book(name="pasta lover", desc="food lovers", uploader_id="3")
+>>> book6.save()
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+book1.liked_users.add(User.objects.get(id=1))
+>>> book2=Book.objects.get(id=2)
+>>> book3=Book.objects.get(id=3)
+>>> book4=Book.objects.get(id=4)
+>>> book5=Book.objects.get(id=5)
+>>> book6=Book.objects.get(id=6)
+
+>>> user1=User.objects.get(id=1)
+>>> user2=User.objects.get(id=2)
+>>> user3=User.objects.get(id=3)
+
+
+~~~~~~~~~~~~~~`
+
+
+Have the first user like the last book and the first book
+
+
+book1.liked_users.add(user1)
+>>> book6.liked_users.add(user1)
+
+
+~~~~~~~~~~~~~~`
+
+Have the second user like the first book and the third book
+
+ book1.liked_users.add(user2)
+ book3.liked_users.add(user2)
+
+~~~~~~~~~~~~~~
+
+Have the third user like all books
+
+book1.liked_users.add(user3)
+>>> book2.liked_users.add(user3)
+>>> book3.liked_users.add(user3)
+book4.liked_users.add(user3)
+>>> book5.liked_users.add(user3)
+>>> book6.liked_users.add(user3)
+
+~~~~~~~~~~~~~~~~~
+
+Book.objects.first().uploader
+User object: barka p barka@gmail.com 
+
+~~~~~~~~~~~~~~~~~
+
+Display all users who like the first book
+
+
+ book1.liked_users.all()
+<QuerySet [User object: barka p barka@gmail.com , User object: cathy b cathy@gmail.com , User object: bret f bret@gmail.com ]>
+
+
+~~~~~~~~~~~~~~~~~
+Display all users who like the second book
+
+book2.liked_users.all()
+<QuerySet [User object: bret f bret@gmail.com ]>
+
+~~~~~~~~~~~~~~~~~
+Display the user who uploaded the first book
+Book.objects.first().uploader
+User object: barka p barka@gmail.com 
+Display the user who uploaded the second book
+>>> Book.objects.get(id=2).uploader
+User object: barka p barka@gmail.com 
+
+~~~~~~~~~~~~~~~~~`
